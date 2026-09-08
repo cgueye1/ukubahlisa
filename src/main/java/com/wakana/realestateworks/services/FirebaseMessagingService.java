@@ -4,6 +4,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 import org.springframework.stereotype.Service;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
@@ -14,6 +15,7 @@ import com.wakana.realestateworks.dto.Note;
 import lombok.RequiredArgsConstructor;
 
 @Service
+@ConditionalOnProperty(name = "firebase.enabled", havingValue = "true")
 @RequiredArgsConstructor
 public class FirebaseMessagingService {
   private final FirebaseMessaging firebaseMessaging;

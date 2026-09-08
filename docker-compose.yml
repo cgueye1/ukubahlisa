@@ -7,6 +7,10 @@ services:
       - 8081:8081
     environment:
       SPRING_PROFILES_ACTIVE: production
+      FIREBASE_ENABLED: "false"
+      FIREBASE_CREDENTIALS_PATH: /run/secrets/firebase/serviceAccountKey.json
+    volumes:
+      - ./secrets/firebase:/run/secrets/firebase:ro
     depends_on:
       - db
 
