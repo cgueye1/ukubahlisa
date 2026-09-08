@@ -1,0 +1,133 @@
+
+
+source ~/.bash_profile
+mvn spring-boot:run
+
+docker build -t pointage/ukubhalisa .
+
+docker build -t pointage/ukubhalisa1 .
+
+save and send 
+docker save -o ukubhalisa.tar pointage/ukubhalisa:latest
+
+docker save -o ukubhalisa1.tar pointage/ukubhalisa1:latest
+
+scp ukubhalisa.tar root@185.170.213.160:/
+
+scp ukubhalisa1.tar root@185.170.213.160:/
+
+password : Wakan@123
+
+
+
+
+
+
+
+
+Connexion
+ssh -p 22  root@185.170.213.160
+
+
+load on serveur
+docker load -i /ukubhalisa.tar 
+ 
+run
+
+
+docker run -d -p  8081:8081 \
+  -v /etc/letsencrypt/live/innov.sn/server.p12:/certs/server.p12 \
+  --name ukubhalisa \
+   -v /application.properties:/app/application.properties \
+   pointage/ukubhalisa:latest
+   
+      docker run -d -p   8081:8081\
+  -v /etc/letsencrypt/live/innov.sn/server.p12:/certs/server.p12 \
+  --name ukubhalisa \
+   pointage/ukubhalisa:latest
+   
+   docker run -d -p  8082:8082 \
+  -v /etc/letsencrypt/live/innov.sn/server.p12:/certs/server.p12 \
+  --name ukubhalisa1 \
+   pointage/ukubhalisa1:latest
+  
+   
+  
+ docker run -d -p 8081:8081 --name ukubhalisa  pointage/ukubhalisa:latest
+  
+
+docker stop  ukubhalisa
+docker rm ukubhalisa
+
+docker stop  ukubhalisa1
+docker rm ukubhalisa1
+
+https://www.mvps.net/login.php 
+
+rm /peeyleb/upload/
+
+
+
+
+
+allow remote
+CREATE USER 'wakana'@'%' IDENTIFIED BY 'wakana';
+GRANT ALL PRIVILEGES ON *.* TO 'wakana'@'%' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+
+
+
+///nginx 
+sudo nano /etc/nginx/sites-available/default
+sudo nano /etc/nginx/sites-available/monsite
+
+
+
+docker exec 123456789abc ps aux | grep websocket
+
+
+
+
+schema-mysql.sql
+
+
+mvn spring-boot:run
+
+
+
+
+
+sudo ln -s /etc/nginx/sites-available/solimus.sn /etc/nginx/sites-enabled/
+
+
+
+UPDATE subscriptions
+SET end_date = '2025-03-29'
+WHERE id = 14;
+
+
+
+
+
+
+docker run -d \
+  -p 9090:9090 \
+  -v /etc/letsencrypt/live/wakana.online/server.p12:/certs/server.p12 \
+  -v /application.properties:/app/application.properties \
+  --name construction_site \
+  construction/site:latest
+
+
+
+
+
+
+passwd
+
+
+
+
+
+https://innov.sn/pointage/swagger-ui/index.html#
+
+

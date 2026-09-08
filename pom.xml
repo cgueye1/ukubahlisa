@@ -8,10 +8,10 @@
 		<version>3.2.0-SNAPSHOT</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.wakan</groupId>
-	<artifactId>samater</artifactId>
+	<groupId>com.wakana</groupId>
+	<artifactId>realestateworks</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>wolofbiblio</name>
+	<name>construction works</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>17</java.version>
@@ -42,6 +42,16 @@
     <groupId>ws.schild</groupId>
     <artifactId>jave-core</artifactId>
     <version>3.1.1</version>
+</dependency>
+<dependency>
+    <groupId>com.fasterxml.jackson.datatype</groupId>
+    <artifactId>jackson-datatype-joda</artifactId>
+    <version>2.15.3</version>
+</dependency>
+<dependency>
+    <groupId>com.fasterxml.jackson.datatype</groupId>
+    <artifactId>jackson-datatype-jsr310</artifactId>
+    <version>2.15.3</version> <!-- Assurez-vous que la version correspond à celle de jackson-databind -->
 </dependency>
 
  <dependency>
@@ -83,6 +93,11 @@
     <artifactId>jave-core</artifactId>
     <version>3.1.1</version>
 </dependency>
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-mail</artifactId>
+</dependency>
+		
 <dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-websocket</artifactId>
@@ -154,7 +169,11 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		
+		<dependency>
+    <groupId>com.google.maps</groupId>
+    <artifactId>google-maps-services</artifactId>
+    <version>2.2.0</version>
+</dependency>
 		
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
@@ -179,8 +198,7 @@
 			<artifactId>commons-lang3</artifactId>
 		</dependency>
 		
-		
-		
+
 		
 		
 	</dependencies>
@@ -208,6 +226,11 @@
     <skipTests>true</skipTests>  
     </configuration>  
 </plugin>  
+
+
+
+
+
 			
 		</plugins>
 	</build>
