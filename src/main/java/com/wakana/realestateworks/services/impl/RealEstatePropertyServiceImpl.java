@@ -343,7 +343,9 @@ public class RealEstatePropertyServiceImpl implements RealEstatePropertyService 
                 response.setPropertyType(property.getPropertyType());
                 response.setRecipient(property.getRecipient());
 
-                String qrcode = QRCodeUtil.generateQrCode(property.getId().toString(), property.getName());
+                String qrcode ="S8sxUN1xPUBaKTSvMKpS4e6p6Qa4ZoIZZtXHwLwCn3w=";
+                
+                // QRCodeUtil.generateQrCode(property.getId().toString(), property.getName());
                 response.setQrcode(qrcode);
 
                 if (null != property.getParentProperty()) {
