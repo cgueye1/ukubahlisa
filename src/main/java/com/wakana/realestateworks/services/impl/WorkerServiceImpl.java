@@ -379,7 +379,11 @@ public class WorkerServiceImpl implements WorkerService {
                 })
                 .sum();
 
-        return totalMinutes > 0 ? Math.max(0, totalMinutes - 60) : 0;
+            LocalTime breakStart = LocalTime.of(13, 0);
+            boolean breakHasStarted = workDate.isBefore(today)
+                || (workDate.equals(today) && !LocalTime.now().isBefore(breakStart));
+
+            return totalMinutes > 0 && breakHasStarted ? Math.max(0, totalMinutes - 60) : totalMinutes;
     }
 
     @Override
