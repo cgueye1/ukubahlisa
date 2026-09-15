@@ -288,16 +288,10 @@ public class WorkerServiceImpl implements WorkerService {
         for (WorkerPresence presence : presences) {
             List<PresenceLog> logs = presence.getLogs();
 
-            boolean countedDay = false;
-
-            for (PresenceLog log : logs) {
-                if (log.getCheckInTime() != null && log.getCheckOutTime() != null) {
-                    if (!countedDay) {
-                        daysPresent++;
-                        countedDay = true;
-                    }
-                    totalWorkedMinutes += ChronoUnit.MINUTES.between(log.getCheckInTime(), log.getCheckOutTime());
-                }
+            long dailyMinutes = calculateWorkedMinutes(logs, presence.getDate(), LocalDate.now(), false);
+            if (dailyMinutes > 0) {
+                daysPresent++;
+                totalWorkedMinutes += dailyMinutes;
             }
         }
 
@@ -314,23 +308,7 @@ public class WorkerServiceImpl implements WorkerService {
         List<PresenceLog> logs = presence.getLogs();
         LocalDate today = LocalDate.now();
 
-        long totalMinutes = logs.stream()
-                .filter(log -> log.getCheckInTime() != null)
-                .mapToLong(log -> {
-                    LocalTime checkOut;
-
-                    if (log.getCheckOutTime() != null) {
-                        checkOut = log.getCheckOutTime();
-                    } else if (date.equals(today)) {
-                        checkOut = LocalTime.now();
-                    } else {
-                        // Pas de check-out et pas aujourd'hui → on ignore
-                        return 0;
-                    }
-
-                    return ChronoUnit.MINUTES.between(log.getCheckInTime(), checkOut);
-                })
-                .sum();
+        long totalMinutes = calculateWorkedMinutes(logs, date, today, true);
 
         long hours = totalMinutes / 60;
         long minutes = totalMinutes % 60;
@@ -361,22 +339,7 @@ public class WorkerServiceImpl implements WorkerService {
                 WorkerPresence presence = presenceOpt.get();
                 List<PresenceLog> logs = presence.getLogs();
 
-                dailyMinutes = logs.stream()
-                        .filter(log -> log.getCheckInTime() != null)
-                        .mapToLong(log -> {
-                            LocalTime checkOut;
-
-                            if (log.getCheckOutTime() != null) {
-                                checkOut = log.getCheckOutTime();
-                            } else if (currentDate.equals(today)) {
-                                checkOut = LocalTime.now();
-                            } else {
-                                return 0;
-                            }
-
-                            return ChronoUnit.MINUTES.between(log.getCheckInTime(), checkOut);
-                        })
-                        .sum();
+                dailyMinutes = calculateWorkedMinutes(logs, currentDate, today, true);
             }
 
             totalMinutesWorked += dailyMinutes;
@@ -395,6 +358,28 @@ public class WorkerServiceImpl implements WorkerService {
         String totalFormatted = String.format("%dh %02dmin", totalHours, totalRemainingMinutes);
 
         return new MonthlyWorkSummaryResponse(summaryList, totalFormatted);
+    }
+
+    private long calculateWorkedMinutes(List<PresenceLog> logs, LocalDate workDate, LocalDate today,
+            boolean includeOpenLog) {
+        long totalMinutes = logs.stream()
+                .filter(log -> log.getCheckInTime() != null)
+                .mapToLong(log -> {
+                    LocalTime checkOut = log.getCheckOutTime();
+
+                    if (checkOut == null && includeOpenLog && workDate.equals(today)) {
+                        checkOut = LocalTime.now();
+                    }
+
+                    if (checkOut == null) {
+                        return 0;
+                    }
+
+                    return ChronoUnit.MINUTES.between(log.getCheckInTime(), checkOut);
+                })
+                .sum();
+
+        return totalMinutes > 0 ? Math.max(0, totalMinutes - 60) : 0;
     }
 
     @Override
