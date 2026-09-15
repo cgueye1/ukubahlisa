@@ -106,6 +106,11 @@ public class WorkerServiceImpl implements WorkerService {
     public CheckResult handleCheck(Long workerId, String qrCodeText, double workerLat, double workerLon) {
         LocalDateTime now1 = LocalDateTime.now();
         User worker = getWorkerById(workerId); // récupérer le worker pour son nom
+
+        if (Long.valueOf(5L).equals(workerId)) {
+            return new CheckResult(false, "Tu n'es plus autorisé à te pointer.");
+        }
+
         String workerName = worker.getPrenom(); // ou getFullName()
 
         String companyName = worker.getAssignedCompany().getName(); // ou getFullName()
